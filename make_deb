@@ -65,7 +65,7 @@ foglamp_version=`cat ${GIT_ROOT}/VERSION.south.wind_sensors | tr -d ' ' | grep '
 BUILD_ROOT="${GIT_ROOT}/packages/build"
 
 # Final package name
-package_name="foglamp-south-wind_sensors-${version}"
+package_name="foglamp-south-wind-sensors-${version}"
 
 # Print the summary of findings
 echo "The package root directory is         : ${GIT_ROOT}"

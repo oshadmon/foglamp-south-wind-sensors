@@ -28,8 +28,8 @@
 set -e
 
 set_files_ownership () {
-    chown -R root:root /usr/local/foglamp/python/foglamp/plugins/south/wind_sensors
+    chown -R root:root /usr/local/foglamp/python/foglamp/plugins/south/wind-sensors
 }
 
 set_files_ownership
-echo "Sinusoid plugin is installed."
+echo "Wind sensors plugin is installed."
