@@ -13,15 +13,13 @@ This repo contains the scripts used to create a foglamp-south-wind-sensors packa
 
 Install PyFTDI (prerequisite) 
 =============================
-```
-cd $HOME
+.. code-block:: console
 
-git clone https://github.com/eblot/pyftdi.git
+  cd $HOME
+  git clone https://github.com/eblot/pyftdi.git
+  cd $HOME/pyftdi 
+  python3 setup.py
 
-cd $HOME/pyftdi 
-
-python3 setup.py
-``` 
 
 How to run Wind-Sensors 
 =======================
