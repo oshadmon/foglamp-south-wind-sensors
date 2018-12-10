@@ -20,7 +20,4 @@ cd $HOME/pyftdi
 python3 setup.py
 ``` 
 
-How to run Wind-Sensors 
-=======================
-https://foglamp.readthedocs.io/en/latest/plugin_developers_guide/03_south_plugins.html#building-foglamp-and-adding-the-plugin
 
