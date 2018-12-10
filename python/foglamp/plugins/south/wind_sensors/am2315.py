@@ -118,6 +118,6 @@ if __name__ == '__main__':
     i2c.set_retry_count(1)
     i2c.configure('ftdi://ftdi:232h:FT2BZGR5/')
     gd=AM2315(i2c)
-    print(gd.temperature())
-    print(gd.humidity())
+    print('Temp: %s' % gd.temperature())
+    print('Humidity: %s' % gd.humidity())
 
