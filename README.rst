@@ -2,7 +2,7 @@
 foglamp-south-wind-sensors
 ==========================
 
-FogLAMP South Plugin for a group of sensors used on a wind-turbine. [read more](https://github.com/oshadmon/foglamp-south-wind-sensors/blob/master/python/foglamp/plugins/south/wind_sensors/readme.rst)
+FogLAMP South Plugin for a group of sensors used on a wind-turbine. `read more <https://github.com/oshadmon/foglamp-south-wind-sensors/blob/master/python/foglamp/plugins/south/wind_sensors/readme.rst>`_
 
 
 **************************
