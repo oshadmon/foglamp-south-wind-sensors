@@ -3,9 +3,9 @@ This directory contains a South plugin that implements a group of sensor data po
 # Example 
 .. code-block:: console
 
- Temperature/Humidity Sensor (am2315)
-  Temp: 23.3 
-  Humidity: 41.6
+ # Temperature/Humidity Sensor (am2315)
+ Temp: 23.3 
+ Humidity: 41.6
 
 
 
