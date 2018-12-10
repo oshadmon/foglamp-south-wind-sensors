@@ -20,5 +20,13 @@ Install PyFTDI (prerequisite)
   cd $HOME/pyftdi 
   python3 setup.py
 
+.. code-block:: console
 
+ $ ./make_deb help
+ make_deb help [clean|cleanall]
+ This script is used to create the Debian package of foglamp south wind_sensors
 
+ Arguments:
+ help     - Display this help text
+ clean    - Remove all the old versions saved in format .XXXX
+ cleanall - Remove all the versions, including the last one

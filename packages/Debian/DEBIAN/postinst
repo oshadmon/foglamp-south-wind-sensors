@@ -28,7 +28,7 @@
 set -e
 
 set_files_ownership () {
-    chown -R root:root /usr/local/foglamp/python/foglamp/plugins/south/wind-sensors
+    chown -R root:root /usr/local/foglamp/python/foglamp/plugins/south/wind_sensors
 }
 
 set_files_ownership
