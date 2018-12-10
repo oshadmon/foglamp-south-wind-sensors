@@ -15,8 +15,11 @@ Install PyFTDI (prerequisite)
 =============================
 ```
 cd $HOME
+
 git clone https://github.com/eblot/pyftdi.git
+
 cd $HOME/pyftdi 
+
 python3 setup.py
 ``` 
 
