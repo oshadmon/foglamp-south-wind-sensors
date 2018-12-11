@@ -8,8 +8,9 @@
 
 from datetime import datetime, timezone
 import copy
-import uuid
 import logging
+import math 
+import uuid 
 
 from foglamp.common import logger
 from foglamp.plugins.common import utils
@@ -182,7 +183,9 @@ def call_mma8451(handle, time_stamp):
     except: 
         x=y=z={} 
     if x != {}:
-       readings={'x': x, 'y': y, 'z': z} 
+       # Based on https://physics.stackexchange.com/questions/41653/how-do-i-get-the-total-acceleration-from-3-axes
+       acceleration=math.sqrt(math.pow(x,2)+math.pow(y, 2)+math.pow(z, 2)) 
+       readings={'x': x, 'y': y, 'z': z, 'acceleration': acceleration} 
        wrapper = {
            'asset': 'xyz-acceleration', 
            'timestamp': time_stamp,
