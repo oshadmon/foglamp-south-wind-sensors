@@ -36,31 +36,78 @@ _DEFAULT_CONFIG = {
         'default': 'wind_sensors',
         'readonly': 'true'
     },
-    'assetName': {
-        'description': 'Asset name',
+    'assetNamePrefix': {
+        'description': 'Asset name prefix',
         'type': 'string',
-        'default': "wind_sensors",
-        'order': "1"
+        'default': 'wind_sensors/',
+        'order': '1'
+    },
+    'temperatureSensorName': {
+        'description': 'temperature sensor name',
+        'type': 'string',
+        'default': "temperature",
+        'order': "2"
+    },
+    'temperatureSensor': {
+        'description': 'enable/disable the temperature sensor',
+        'type': 'boolean',
+        'default': 'true',
+        'order': '3'
+    },
+    'humiditySensorName': {
+        'description': 'humidity sensor name',
+        'type': 'string',
+        'default': 'humidity',
+        'order': '4'
+    },
+    'humiditySensor': {
+        'description':  'enable/disable the humidity sensor',
+        'type': 'boolean',
+        'default': 'true',
+        'order': '4'
+    },
+    'currentSensorName': {
+        'description': 'current sensor name',
+        'type': 'string',
+        'default': 'current',
+        'order': '5'
+    },
+    'currentSensor': {
+        'description':  'enable/disable the current sensor',
+        'type': 'boolean',
+        'default': 'true',
+        'order': '6'
+    },
+    'accelerationSensorName': {
+        'description': 'acceleration sensor name',
+        'type': 'string',
+        'default': 'acceleration',
+        'order': '7'
+    },
+    'accelerationSensor': {  
+        'description':  'enable/disable the acceleration sensor',
+        'type': 'boolean',
+        'default': 'true',
+        'order': '8'
     },
     'pollInterval': {
         'description': 'The interval between poll calls to the sensor poll routine expressed in milliseconds.',
         'type': 'integer',
         'default': '1000',
-        'order': '2'
+        'order': '9'
     },
     'i2c_retry': {
-        'description': 'I2C connection retry count', 
+        'description': 'I2C connection retry count',
         'type': 'integer',
         'default': '1',
-        'order': '3'
+        'order': '10'
     },
     'ftdi_url': {
-        'description': 'I2C URL address', 
+        'description': 'I2C URL address',
         'type': 'string',
         'default': 'ftdi://ftdi:232h:FT2BZGR5/1',
-        'order': '4'
+        'order': '11'
     }
-
 }
 
 _LOGGER = logger.setup(__name__)
@@ -111,13 +158,14 @@ def plugin_init(config):
     return handle
 
 
-def call_am2315(handle, time_stamp)->(dict, dict): 
+def call_am2315_temp(handle, asset, time_stamp):
     """
-    Get data from AM2315 
+    Get temp data from AM2315 
     :param: 
-
+       handle:config
+       time_stamp: timstamp wrapper is created 
     :return:
-       dict object of am2315 data 
+       dict object of am2315 temp data
     """
     try:
        temp=handle['am2315'].temperature()
@@ -126,12 +174,22 @@ def call_am2315(handle, time_stamp)->(dict, dict):
     if temp != {}:    
        readings={'temperature': temp} 
        temp_wrapper = {
-           'asset':     'temperature',
+           'asset':     asset,
            'timestamp': time_stamp,
            'key':       str(uuid.uuid4()),
            'readings':  readings
        }
+    return temp_wrapper
 
+def call_am2315_humid(handle, asset, time_stamp):
+    """
+    Get humidity data from AM2315
+    :param: 
+       handle: config
+       time_stamp: timestamp  wrapper is created 
+    :return:
+       dict object of am2315 humdity data 
+    """
     try: 
        humid=handle['am2315'].humidity() 
     except: 
@@ -139,14 +197,14 @@ def call_am2315(handle, time_stamp)->(dict, dict):
     if humid != {}: 
        readings={'humidity': humid}
        humid_wrapper = {
-           'asset':     'humidity', 
+           'asset':     asset, 
            'timestamp': time_stamp,
            'key':       str(uuid.uuid4()),
            'readings':  readings
        }
-    return temp_wrapper, humid_wrapper
+    return humid_wrapper
 
-def call_ina219(handle, time_stamp):
+def call_ina219(handle, asset, time_stamp):
     """
     Get data from INA219
     :param:
@@ -162,14 +220,14 @@ def call_ina219(handle, time_stamp):
     if current != {}:
        readings={'current': current} 
        wrapper = {
-           'asset':     'current', 
+           'asset':     asset, 
            'timestamp': time_stamp,
            'key':       str(uuid.uuid4()),
            'readings':  readings
        }
     return wrapper
 
-def call_mma8451(handle, time_stamp): 
+def call_mma8451(handle, asset, time_stamp): 
     """
     Get data from MMA8451 
     :param: 
@@ -184,10 +242,10 @@ def call_mma8451(handle, time_stamp):
         x=y=z={} 
     if x != {}:
        # Based on https://physics.stackexchange.com/questions/41653/how-do-i-get-the-total-acceleration-from-3-axes
-       acceleration=math.sqrt(math.pow(x,2)+math.pow(y, 2)+math.pow(z, 2)) 
-       readings={'x': x, 'y': y, 'z': z, 'acceleration': acceleration} 
+       #acceleration=math.sqrt(math.pow(x,2)+math.pow(y, 2)+math.pow(z, 2)) 
+       readings={'x': x, 'y': y, 'z': z}
        wrapper = {
-           'asset': 'xyz-acceleration', 
+           'asset': asset, 
            'timestamp': time_stamp,
            'key':       str(uuid.uuid4()),
            'readings':  readings
@@ -209,17 +267,31 @@ def plugin_poll(handle):
     """
     time_stamp = utils.local_timestamp()
     wrapper = list()
-    temp_wrapper, humid_wrapper = call_am2315(handle, time_stamp)
-    if temp_wrapper != {}: 
-       wrapper.append(temp_wrapper)
-    if humid_wrapper != {}:
-       wrapper.append(humid_wrapper)
-    current_wrapper = call_ina219(handle, time_stamp)
-    if current_wrapper != {}: 
-        wrapper.append(current_wrapper)
-    a_wrapper = call_mma8451(handle, time_stamp)
-    if a_wrapper != {}: 
-        wrapper.append(a_wrapper) 
+
+    if handle['temperatureSensor']['value'] == 'true':
+       asset_prefix = handle['assetNamePrefix']['value']
+       asset='{}{}'.format(asset_prefix, handle['temperatureSensorName']['value']) 
+       temp_wrapper = call_am2315_temp(handle, asset, time_stamp)
+       if temp_wrapper != {}: 
+          wrapper.append(temp_wrapper)
+
+    if handle['humiditySensor']['value'] == 'true':
+       asset='{}{}'.format(asset_prefix, handle['humiditySensorName']['value'])
+       humid_wrapper = call_am2315_humid(handle, assett, time_stamp) 
+       if humid_wrapper != {}:
+          wrapper.append(humid_wrapper)
+
+    if handle['currentSensor']['value'] == 'true': 
+       asset='{}{}'.format(asset_prefix, handle['currentSensorName']['value'])
+       current_wrapper = call_ina219(handle, 'current', time_stamp)
+       if current_wrapper != {}: 
+          wrapper.append(current_wrapper)
+
+    if handle['accelerationSensor']['value'] == 'true':
+       asset='{}{}'.format(asset_prefix, handle['accelerationSensorName']['value'])
+       a_wrapper = call_mma8451(handle, 'acceleration', time_stamp)
+       if a_wrapper != {}: 
+          wrapper.append(a_wrapper) 
 
     return wrapper
 
