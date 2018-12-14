@@ -105,7 +105,7 @@ _DEFAULT_CONFIG = {
     'ftdi_url': {
         'description': 'I2C URL address',
         'type': 'string',
-        'default': 'ftdi://ftdi:232h:FT2BZGR5/1',
+        'default': 'ftdi://ftdi:232h:FT2BZHNV/1',
         'order': '11'
     }
 }
@@ -268,7 +268,7 @@ def plugin_poll(handle):
     time_stamp = utils.local_timestamp()
     wrapper = list()
 
-    if handle['temperatureSensor']['value'] == 'false':
+    if handle['temperatureSensor']['value'] == 'true':
        asset_prefix = handle['assetNamePrefix']['value']
        asset='{}{}'.format(asset_prefix, handle['temperatureSensorName']['value']) 
        temp_wrapper = call_am2315_temp(handle, asset, time_stamp)
@@ -277,19 +277,19 @@ def plugin_poll(handle):
 
     if handle['humiditySensor']['value'] == 'true':
        asset='{}{}'.format(asset_prefix, handle['humiditySensorName']['value'])
-       humid_wrapper = call_am2315_humid(handle, assett, time_stamp) 
+       humid_wrapper = call_am2315_humid(handle, asset, time_stamp) 
        if humid_wrapper != {}:
           wrapper.append(humid_wrapper)
 
     if handle['currentSensor']['value'] == 'true': 
        asset='{}{}'.format(asset_prefix, handle['currentSensorName']['value'])
-       current_wrapper = call_ina219(handle, 'current', time_stamp)
+       current_wrapper = call_ina219(handle, asset, time_stamp)
        if current_wrapper != {}: 
           wrapper.append(current_wrapper)
 
     if handle['accelerationSensor']['value'] == 'true':
        asset='{}{}'.format(asset_prefix, handle['accelerationSensorName']['value'])
-       a_wrapper = call_mma8451(handle, 'acceleration', time_stamp)
+       a_wrapper = call_mma8451(handle,  asset, time_stamp)
        if a_wrapper != {}: 
           wrapper.append(a_wrapper) 
 
