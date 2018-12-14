@@ -268,7 +268,7 @@ def plugin_poll(handle):
     time_stamp = utils.local_timestamp()
     wrapper = list()
 
-    if handle['temperatureSensor']['value'] == 'true':
+    if handle['temperatureSensor']['value'] == 'false':
        asset_prefix = handle['assetNamePrefix']['value']
        asset='{}{}'.format(asset_prefix, handle['temperatureSensorName']['value']) 
        temp_wrapper = call_am2315_temp(handle, asset, time_stamp)
