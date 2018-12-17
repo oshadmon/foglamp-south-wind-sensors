@@ -64,53 +64,53 @@ _DEFAULT_CONFIG = {
         'description':  'enable/disable the humidity sensor',
         'type': 'boolean',
         'default': 'true',
-        'order': '4'
+        'order': '5'
     },
-    'currentSensorName': {
+   'currentSensorName': {
         'description': 'current sensor name',
         'type': 'string',
         'default': 'current',
-        'order': '5'
+        'order': '6'
     },
     'currentSensor': {
         'description':  'enable/disable the current sensor',
         'type': 'boolean',
         'default': 'true',
-        'order': '6'
+        'order': '7'
     },
     'accelerationSensorName': {
         'description': 'acceleration sensor name',
         'type': 'string',
         'default': 'acceleration',
-        'order': '7'
+        'order': '8'
     },
     'accelerationSensor': {  
         'description':  'enable/disable the acceleration sensor',
         'type': 'boolean',
         'default': 'true',
-        'order': '8'
+        'order': '9'
     },
     'pollInterval': {
         'description': 'The interval between poll calls to the sensor poll routine expressed in milliseconds.',
         'type': 'integer',
         'default': '1000',
-        'order': '9'
+        'order': '10'
     },
     'i2c_retry': {
         'description': 'I2C connection retry count',
         'type': 'integer',
         'default': '1',
-        'order': '10'
+        'order': '11'
     },
     'ftdi_url': {
         'description': 'I2C URL address',
         'type': 'string',
         'default': 'ftdi://ftdi:232h:FT2BZHNV/1',
-        'order': '11'
+        'order': '12'
     }
 }
 
-_LOGGER = logger.setup(__name__)
+_LOGGER = logger.setup(__name__, level=logging.INFO)
 """ Setup the access to the logging system of FogLAMP """
 _LOGGER.setLevel(logging.INFO)
 
@@ -325,4 +325,4 @@ def plugin_shutdown(handle):
     Returns:
     Raises:
     """
-    _LOGGER.info("AM2315 Poll plugin shutdown")
+    _LOGGER.info("wind_sensors Poll plugin shutdown")
